@@ -6,7 +6,7 @@ export interface Todo {
 
 export type ThemeType = "light" | "dark"
 
-export interface TodoContextInterface {
+export interface TodoContextType {
 todos: Todo[],
 addTodo: (text: string) => void,
 toggleTodo: (id: number) => void,
