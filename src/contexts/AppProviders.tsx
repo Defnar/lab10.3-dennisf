@@ -12,15 +12,13 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
     return item ? JSON.parse(item) : [];
   });
 
-  
   //creates a unique id for incrementing, current id is unused in list
   const idRef = useRef<number>(Number(localStorage.getItem("id")) || 0);
-
 
   //listens for todo list changes and saves to local storage
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-    localStorage.setItem("id", idRef.current.toString())
+    localStorage.setItem("id", idRef.current.toString());
   }, [todos]);
 
   //adds a new item to the list
@@ -28,7 +26,7 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
     if (!text.trim()) return;
 
     const newTodo = { id: idRef.current, text: text, completed: false };
-    setTodos(prev => [...prev, newTodo]);
+    setTodos((prev) => [...prev, newTodo]);
     idRef.current++;
   };
 
@@ -41,6 +39,11 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
     );
   };
 
+  //delete todo item
+  const deleteTodo = (id: number) => {
+    setTodos((prev) => prev.filter((item) => item.id !== id));
+  };
+
   //edits the item
   const editTodo = (id: number, newText: string) => {
     if (!newText.trim()) return;
@@ -51,14 +54,24 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
 
   //clears completed
   const clearCompleted = () => {
-    setTodos(prev => prev.filter(item => !item.completed))
-  }
+    setTodos((prev) => prev.filter((item) => !item.completed));
+  };
 
 
+  ////// values for providers //////////
+  const todoValues = {
+    todos,
+    addTodo,
+    toggleTodo,
+    editTodo,
+    deleteTodo,
+    clearCompleted,
+  };
 
+  
   return (
     <ThemeContext.Provider>
-      <TodoContext.Provider>{children}</TodoContext.Provider>
+      <TodoContext.Provider value={todoValues}>{children}</TodoContext.Provider>
     </ThemeContext.Provider>
   );
 }
