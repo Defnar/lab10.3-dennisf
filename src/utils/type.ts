@@ -20,4 +20,4 @@ editTodo: (id: number, newText: string) => void,
 clearCompleted: () => void
 }
 
-export type filter = "All" | "Active" | "Completed|"
+export type Filter = "All" | "Active" | "Completed"
