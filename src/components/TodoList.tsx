@@ -14,24 +14,16 @@ export default function TodoList() {
   //counts number of active items
   const [activeCount, setActiveCount] = useState<number>(0);
 
-  //commented out for personal learning purposes.  Did research on better ways to count conditional items in a list in react
-  //   //updates count of active items on the list
-  //   useEffect(() => {
-  //     setActiveCount(0);
-  //     for (const item of todos) {
-  //         if(!item.completed) {
-  //             setActiveCount(count => ++count);
-  //         }
-  //     }
-  //   }, [todos])
-
-  //version 2 update count of active items, using filter instead
+  //version 2 update count of active items, using filter instead of
+  //iterating every item in a for loop (causes rerendering in react)
   useEffect(() => {
     const activeList = todos.filter((item) => !item.completed);
     setActiveCount(activeList.length);
   }, [todos]);
 
 
+  //filters list and changes based on todos and filter
+  //refactored from using state for filtered list
   const filteredList = useMemo(() => {
     return todos.filter((item) => {
       switch (filter) {
