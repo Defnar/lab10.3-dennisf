@@ -44,7 +44,7 @@ export default function TodoList() {
   }, [filter, todos]);
 
   //build list using filtered list and todo item component
-  const listBuilder = () => {
+  const listBuilder = useMemo(() => {
     return filteredList.map((item) => (
       <TodoItem
         id={item.id}
@@ -53,7 +53,7 @@ export default function TodoList() {
         key={item.id}
       />
     ));
-  };
+  }, [filteredList]);
 
   const buttonStyles = useMemo(
     () =>
@@ -64,8 +64,9 @@ export default function TodoList() {
   );
 
   const activeButton = useMemo(() => {
-    return (button: Filter) => filter===button? "ring-2 ring-blue-400" : ""
-  }, [filter])
+    return (button: Filter) =>
+      filter === button ? "ring-2 ring-blue-500" : "";
+  }, [filter]);
 
   return (
     <>
@@ -96,18 +97,22 @@ export default function TodoList() {
         </button>
       </div>
       <ul className="list-none leading-11 h-40 overflow-y-scroll">
-        {listBuilder()}
+        {listBuilder}
       </ul>
 
       <div className="flex flex-row justify-between">
         <p>
           {activeCount} item{activeCount != 1 ? "s" : ""} left
         </p>
-        {todos.length !== activeCount &&
-        <button type="button" className={buttonStyles} onClick={clearCompleted}>
-          clear completed
-        </button>
-}
+        {todos.length !== activeCount && (
+          <button
+            type="button"
+            className={buttonStyles}
+            onClick={clearCompleted}
+          >
+            clear completed
+          </button>
+        )}
       </div>
     </>
   );
