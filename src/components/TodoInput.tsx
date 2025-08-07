@@ -1,26 +1,31 @@
-import { useContext, useState } from "react"
-import { TodoContext } from "../contexts/context";
+import { useContext, useMemo, useState } from "react";
+import { ThemeContext, TodoContext } from "../contexts/context";
 
 export default function TodoInput() {
+  const { addTodo } = useContext(TodoContext);
+  const {theme} = useContext(ThemeContext);
+  const [input, setInput] = useState<string>("");
 
-    const {addTodo} = useContext(TodoContext);
-    const [input, setInput] = useState<string>("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
-    }
+  const submitChange = () => {
+    if (input.trim() === "") return;
+    addTodo(input.trim());
+    setInput("");
+  };
 
-    const submitChange = () => {
-        if (input.trim() === "") return
-        addTodo(input.trim());
-        setInput("");
-    }
+  const buttonStyles = useMemo(() =>  theme==="dark"? "bg-slate-600": "bg-slate-800 text-white",
+[theme] )
 
-
-    return (
-        <>
-        <input type="text" value={input} onChange={handleChange} />
-        <button type="button" onClick={submitChange}>Add</button>
-        </>
-    )
+  const inputStyles = useMemo(() => theme==="dark"? "bg-slate-600" : "white", [theme])
+  return (
+    <div className="flex flex-row gap-2">
+      <input type="text" className={`rounded-md px-4 flex-1 shadow-md border border-slate-400 ${inputStyles}`} value={input} onChange={handleChange} />
+      <button type="button" className={`rounded-md px-4 py-2 ${buttonStyles}`} onClick={submitChange}>
+        Add
+      </button>
+    </div>
+  );
 }

@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div
-      className={`flex flex-col content-center justify-center w-150 px-20 py-10 rounded-lg ${styles}`}
+      className={`flex flex-col gap-10 content-center justify-center w-150 px-10 py-5 rounded-lg ${styles}`}
     >
       <Header />
       <TodoInput />
