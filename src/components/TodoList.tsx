@@ -1,15 +1,14 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ThemeContext, TodoContext } from "../contexts/context";
 import TodoItem from "./TodoItem";
-import type { Filter, Todo } from "../utils/type";
+import type { Filter} from "../utils/type";
 
 export default function TodoList() {
   const { todos, clearCompleted } = useContext(TodoContext);
 
   const { theme } = useContext(ThemeContext);
 
-  //states to hold filter data
-  const [filteredList, setFilteredList] = useState<Todo[]>(todos);
+  //state to hold filter data
   const [filter, setFilter] = useState<Filter>("All");
 
   //counts number of active items
@@ -32,16 +31,19 @@ export default function TodoList() {
     setActiveCount(activeList.length);
   }, [todos]);
 
-  //updates filter list to display to user
-  useEffect(() => {
-    const filterList = todos.filter((item) => {
-      if (filter === "All") return item;
-      else if (filter === "Active") {
-        return !item.completed;
-      } else return item.completed;
+
+  const filteredList = useMemo(() => {
+    return todos.filter((item) => {
+      switch (filter) {
+        case "Active":
+          return !item.completed;
+        case "Completed":
+          return item.completed;
+        case "All":
+          return item;
+      }
     });
-    setFilteredList(filterList);
-  }, [filter, todos]);
+  }, [todos, filter]);
 
   //build list using filtered list and todo item component
   const listBuilder = useMemo(() => {
@@ -55,6 +57,7 @@ export default function TodoList() {
     ));
   }, [filteredList]);
 
+  //styles for the filter and clear completed buttons
   const buttonStyles = useMemo(
     () =>
       `w-30 rounded-md py-2 px-4 ${
@@ -63,6 +66,7 @@ export default function TodoList() {
     [theme]
   );
 
+  //places a blue ring around the active filter
   const activeButton = useMemo(() => {
     return (button: Filter) =>
       filter === button ? "ring-2 ring-blue-500" : "";

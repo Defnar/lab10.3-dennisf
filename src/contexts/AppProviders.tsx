@@ -85,6 +85,7 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
     [todos]
   );
 
+  //changes theme when called
   const themeValues = useMemo(
     () => ({
       theme,

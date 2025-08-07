@@ -6,16 +6,21 @@ export default function TodoInput() {
   const {theme} = useContext(ThemeContext);
   const [input, setInput] = useState<string>("");
 
+
+  //handles user input via state to display and submit
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
+
+  //ensures something is in field, then submits the new task to the todo list
   const submitChange = () => {
     if (input.trim() === "") return;
     addTodo(input.trim());
     setInput("");
   };
 
+  //listens for enter key to submit todo task
   const checkEnterKey= (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") submitChange();
   }
