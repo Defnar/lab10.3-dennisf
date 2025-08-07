@@ -13,6 +13,7 @@ export default function TodoInput() {
     const submitChange = () => {
         if (input.trim() === "") return
         addTodo(input.trim());
+        setInput("");
     }
 
 
