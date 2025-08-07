@@ -19,3 +19,5 @@ deleteTodo: (id: number) => void,
 editTodo: (id: number, newText: string) => void,
 clearCompleted: () => void
 }
+
+export type filter = "All" | "Active" | "Completed|"

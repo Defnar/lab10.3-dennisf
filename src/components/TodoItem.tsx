@@ -16,7 +16,6 @@ export default function TodoItem({ id, text, completed }: Todo) {
   const handleEdit = (
     e: React.KeyboardEvent | React.FocusEvent
   ) => {
-    console.log(e);
     if (
       (e.type==="keydown" && (e as React.KeyboardEvent).key === "Enter") ||
       e.type==="blur"
