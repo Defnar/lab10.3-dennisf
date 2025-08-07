@@ -14,11 +14,12 @@ export default function TodoItem({ id, text, completed }: Todo) {
   };
 
   const handleEdit = (
-    e: React.KeyboardEvent | React.FocusEvent<HTMLInputElement>
+    e: React.KeyboardEvent | React.FocusEvent
   ) => {
+    console.log(e);
     if (
-      (e instanceof KeyboardEvent && e.key === "enter") ||
-      e instanceof FocusEvent
+      (e.type==="keydown" && (e as React.KeyboardEvent).key === "Enter") ||
+      e.type==="blur"
     ) {
       const newText = textValue.trim() !== "" ? textValue.trim() : text;
       editTodo(id, newText);
@@ -49,6 +50,7 @@ export default function TodoItem({ id, text, completed }: Todo) {
           <input
             type="text"
             value={textValue}
+            autoFocus
             onChange={handleInput}
             onBlur={handleEdit}
             onKeyDown={handleEdit}

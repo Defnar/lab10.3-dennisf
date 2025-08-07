@@ -1,14 +1,14 @@
-import { useState } from 'react'
-
-import './App.css'
-import TodoList from './components/TodoList'
+import "./App.css";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <TodoList />
+  <>
+  <TodoInput />
+  <TodoList />;
+  </>
   )
 }
 
-export default App
+export default App;
