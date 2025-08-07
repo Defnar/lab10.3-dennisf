@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { TodoContext } from "../contexts/context";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { ThemeContext, TodoContext } from "../contexts/context";
 import TodoItem from "./TodoItem";
 import type { Filter, Todo } from "../utils/type";
 
 export default function TodoList() {
   const { todos, clearCompleted } = useContext(TodoContext);
+
+  const {theme} = useContext(ThemeContext);
 
   //states to hold filter data
   const  [filteredList, setFilteredList] = useState<Todo[]>(todos);
@@ -60,14 +62,16 @@ useEffect(() => {
     ));
   };
 
+  const buttonStyles = useMemo(() => `w-30 rounded-md py-2 px-4 ${theme==="dark"? "bg-slate-600" : "bg-slate-800"}` ,[theme])
+
   return (
     <>
-    <div>
-        <button type="button" value="All" onClick={() => setFilter("All")}>All</button>
-        <button type="button" value="Active" onClick={() => setFilter("Active")}>Active</button>
-        <button type="button" value="Completed" onClick={() => setFilter("Completed")}>Completed</button>
+    <div className="flex flex-row justify-center gap-4 align-content-center">
+        <button type="button" value="All" className={`${buttonStyles}`} onClick={() => setFilter("All")}>All</button>
+        <button type="button" value="Active" className={`${buttonStyles}`} onClick={() => setFilter("Active")}>Active</button>
+        <button type="button" value="Completed" className={`${buttonStyles}`} onClick={() => setFilter("Completed")}>Completed</button>
     </div>
-      <ul>{listBuilder()}</ul>
+      <ul className="list-none leading-11 h-40 overflow-y-scroll">{listBuilder()}</ul>
       
       <p>{activeCount} item{activeCount!=1? "s" : ""} left</p>
       <button type="button" onClick={clearCompleted}>clear completed</button>
