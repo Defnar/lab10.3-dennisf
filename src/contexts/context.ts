@@ -1,6 +1,5 @@
 import React from "react";
-import type { ThemeType, TodoContextType } from "../utils/type";
-
+import type { ThemeContextType, TodoContextType } from "../utils/type";
 
 export const TodoContext = React.createContext<TodoContextType>({
   todos: [],
@@ -11,4 +10,7 @@ export const TodoContext = React.createContext<TodoContextType>({
   clearCompleted: () => {},
 });
 
-export const ThemeContext = React.createContext<ThemeType>("light");
+export const ThemeContext = React.createContext<ThemeContextType>({
+  theme: "light",
+  toggleTheme: () => {},
+});

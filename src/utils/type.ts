@@ -6,11 +6,16 @@ export interface Todo {
 
 export type ThemeType = "light" | "dark"
 
+export interface ThemeContextType {
+    theme: ThemeType,
+    toggleTheme: () => void
+}
+
 export interface TodoContextType {
 todos: Todo[],
 addTodo: (text: string) => void,
 toggleTodo: (id: number) => void,
 deleteTodo: (id: number) => void,
-editTodo: (id: number, nextText: string) => void,
+editTodo: (id: number, newText: string) => void,
 clearCompleted: () => void
 }

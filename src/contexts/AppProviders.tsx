@@ -1,7 +1,7 @@
 import type React from "react";
-import { TodoContext, type ThemeContext } from "./context";
-import { useEffect, useRef, useState } from "react";
-import type { Todo } from "../utils/type";
+import { ThemeContext, TodoContext } from "./context";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { ThemeType, Todo } from "../utils/type";
 
 export default function AppProviders({ children }: React.PropsWithChildren) {
   /////////////////////TODO LOGIC///////////////////
@@ -57,20 +57,44 @@ export default function AppProviders({ children }: React.PropsWithChildren) {
     setTodos((prev) => prev.filter((item) => !item.completed));
   };
 
+  ///////////THEME////////////
+  const [theme, setTheme] = useState<ThemeType>(
+    (localStorage.getItem("theme") as ThemeType) || "light"
+  );
 
-  ////// values for providers //////////
-  const todoValues = {
-    todos,
-    addTodo,
-    toggleTodo,
-    editTodo,
-    deleteTodo,
-    clearCompleted,
+  //saves everytime theme is changed
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  //toggles theme between light and dark
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  
+  ////// values for providers //////////
+  const todoValues = useMemo(
+    () => ({
+      todos,
+      addTodo,
+      toggleTodo,
+      editTodo,
+      deleteTodo,
+      clearCompleted,
+    }),
+    [todos]
+  );
+
+  const themeValues = useMemo(
+    () => ({
+      theme,
+      toggleTheme,
+    }),
+    [theme]
+  );
+
   return (
-    <ThemeContext.Provider>
+    <ThemeContext.Provider value={themeValues}>
       <TodoContext.Provider value={todoValues}>{children}</TodoContext.Provider>
     </ThemeContext.Provider>
   );
